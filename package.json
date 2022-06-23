@@ -1,0 +1,22 @@
+{
+  "name": "atvv-wb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cd backend && nodemon index",
+    "client": "cd front_end && npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nicolas734/atvv-wb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nicolas734/atvv-wb/issues"
+  },
+  "homepage": "https://github.com/Nicolas734/atvv-wb#readme"
+}
