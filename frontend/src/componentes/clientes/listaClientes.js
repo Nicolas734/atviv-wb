@@ -2,13 +2,39 @@
 import 'materialize-css/dist/css/materialize.min.css'
 import '../clientes/cadastroCliente.css'
 import M from 'materialize-css'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default function ListaClientes(props) {
     const estilo = `collection-item active pink lighten-2${props.tema}`
+
+        const [clientes,setClientes] = useState([])
+
+        const listarClientes = () => {
+            axios.get('http://localhost:5000/cliente/listarClientes').then((res) => {
+                setClientes(res.data)
+            }).catch((erro)=>{
+                console.error('Erro', erro.response)
+            }) 
+        }
+
+        const filtraGenero = (e) => {
+            if (e.target.value === 'Todos'){
+                listarClientes()
+            }
+            else{
+                axios.get(`http://localhost:5000/listagem/listagemByGenero/${e.target.value}`).then((res) => {
+                    setClientes(res.data.cliente)
+                }).catch((erro)=>{
+                    console.error('Erro', erro.response)
+                }) 
+            }
+        }
+
         useEffect(() => { 
                 M.AutoInit()
+                listarClientes()
         }, [])
 
     return (
@@ -18,21 +44,23 @@ export default function ListaClientes(props) {
             <h2>Listagem de Clientes</h2>
 
             <div className="input-field col s12 opcoes">
-                <select>
-                <option value="" disabled>Listar clientes por genero</option>
-                    <option value="1">Todos</option>
-                    <option value="2">Masculino</option>
-                    <option value="3">Feminino</option>
-                    <option value="4">Não Informado</option>
+                <select onChange={filtraGenero}>
+                <option value="" disabled>Listar Clientes por Gênero</option>
+                    <option value="Todos">Todos</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Feminino</option>
+                    <option value="N">Não Informado</option>
                 </select>
             </div>
 
             <div className="collection home">
-                <Link to={"/Cliente"} className="collection-item pointer">Cliente 1</Link>
-                <Link to={"/Cliente"} className="collection-item pointer">Cliente 2</Link>
-                <Link to={"/Cliente"} className="collection-item pointer">Cliente 3</Link>
-                <Link to={"/Cliente"} className="collection-item pointer">Cliente 4</Link>
+                {clientes.map( cli => (
+
+                    <Link key={cli.id} to={`/Cliente/${cli.id}`} className="collection-item pointer">{cli.nome}</Link>
+
+                ))}
             </div>
+
         </div>
     )
 }

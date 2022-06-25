@@ -5,7 +5,6 @@ import clienteRouter from "./routes/clienteRouter.js";
 import produtoRouter from "./routes/produtoRouter.js";
 import servicoRouter from "./routes/servicoRouter.js";
 import pedidoRouter from "./routes/pedidoRouter.js";
-import listagemRouter from "./routes/listagensRouter.js";
 
 const app = express();
 
@@ -31,6 +30,4 @@ app.use('/servico', servicoRouter);
 
 app.use('/pedido', pedidoRouter);
 
-app.use('/listagem', listagemRouter);
-
-app.listen(5000, ()=> console.log(`Servidor rodando na 5000`));
+app.listen(process.env.PORT, ()=> console.log(`Servidor rodando na ${process.env.PORT}.`));
